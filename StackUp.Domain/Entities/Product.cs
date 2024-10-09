@@ -1,5 +1,4 @@
-﻿// StackUp.Domain/Entities/Product.cs
-namespace StackUp.Domain.Entities
+﻿namespace StackUp.Domain.Entities
 {
     public class Product
     {

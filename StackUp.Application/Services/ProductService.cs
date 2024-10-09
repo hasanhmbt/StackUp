@@ -32,32 +32,28 @@ namespace StackUp.Application.Services
         {
             var product = _mapper.Map<Product>(productDto);
             await _productRepository.AddAsync(product);
-            // Save changes via Unit of Work or directly if using repositories with Save
+
         }
 
-        // Update existing product
+
         public async Task UpdateProductAsync(ProductDTO productDto)
         {
             var product = await _productRepository.GetByIdAsync(productDto.Id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found.");
 
-            // Update properties
             product.UpdatePrice(productDto.Price);
-            // Adjust quantity or other properties as needed
 
             _productRepository.Update(product);
-            // Save changes via Unit of Work or directly if using repositories with Save
         }
 
-        // Remove product
         public async Task RemoveProductAsync(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
                 throw new KeyNotFoundException("Product not found.");
 
-            _productRepository.Remove(product);
+            _productRepository.Delete(product);
         }
     }
 }

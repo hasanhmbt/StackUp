@@ -1,8 +1,10 @@
-﻿namespace StackUp.Application.DTOs
+﻿using StackUp.Application.DTOs.Common;
+
+namespace StackUp.Application.DTOs
 {
-    public class CustomerDTO
+    public class CustomerDTO : BaseDto
     {
-        public int Id { get; set; }
+
         public string CustomerName { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }

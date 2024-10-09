@@ -1,4 +1,5 @@
-﻿/*using StackUp.Domain.Interfaces;
+﻿using StackUp.Domain.Interfaces;
+using StackUp.Infrastructure.Persistence;
 
 namespace StackUp.Infrastructure.Repositories
 {
@@ -41,4 +42,3 @@ namespace StackUp.Infrastructure.Repositories
         }
     }
 }
-*/

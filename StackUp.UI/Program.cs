@@ -5,15 +5,22 @@ using StackUp.Application.Services;
 using StackUp.Domain.Interfaces;
 using StackUp.Infrastructure.Persistence;
 using StackUp.Infrastructure.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllersWithViews();
 
+// Auto Mapper Configurations
+builder.Services.AddAutoMapper(Assembly.Load("StackUp.Application"));
 
 builder.Services.AddDbContext<InventoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+// MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 /*// Identity DbContext for User Management
 builder.Services.AddDbContext<IdentityDbContext>(options =>
@@ -49,8 +56,10 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 // builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 builder.Services.AddScoped<ProductService>();

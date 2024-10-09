@@ -1,5 +1,4 @@
-﻿// StackUp.Domain/Entities/Customer.cs
-using StackUp.Domain.ValueObjects;
+﻿using StackUp.Domain.ValueObjects;
 
 namespace StackUp.Domain.Entities
 {

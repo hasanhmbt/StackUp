@@ -7,9 +7,7 @@ namespace StackUp.Infrastructure.Repositories
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        public ProductRepository(InventoryDbContext context) : base(context)
-        {
-        }
+        public ProductRepository(InventoryDbContext context) : base(context) { }
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(int categoryId)
         {

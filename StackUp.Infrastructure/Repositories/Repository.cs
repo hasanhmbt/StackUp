@@ -41,7 +41,7 @@ namespace StackUp.Infrastructure.Repositories
             _dbSet.Update(entity);
         }
 
-        public void Remove(T entity)
+        public void Delete(T entity)
         {
             _dbSet.Remove(entity);
         }

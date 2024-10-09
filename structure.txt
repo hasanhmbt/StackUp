@@ -1,0 +1,91 @@
+﻿MyApp.sln
+│
+├── src
+│   ├── MyApp.Domain
+│   │   ├── Entities
+│   │   ├── ValueObjects
+│   │   ├── Aggregates
+│   │   ├── Repositories
+│   │   ├── Services
+│   │   ├── DomainEvents
+│   │   ├── Specifications
+│   │   └── Exceptions
+│   │
+│   ├── MyApp.Application
+│   │   ├── Commands
+│   │   │   ├── CreateProduct
+│   │   │   │   ├── CreateProductCommand.cs
+│   │   │   │   └── CreateProductCommandHandler.cs
+│   │   │   └── UpdateProduct
+│   │   │       ├── UpdateProductCommand.cs
+│   │   │       └── UpdateProductCommandHandler.cs
+│   │   ├── Queries
+│   │   │   ├── GetProductById
+│   │   │   │   ├── GetProductByIdQuery.cs
+│   │   │   │   └── GetProductByIdQueryHandler.cs
+│   │   │   └── GetAllProducts
+│   │   │       ├── GetAllProductsQuery.cs
+│   │   │       └── GetAllProductsQueryHandler.cs
+│   │   ├── DTOs
+│   │   │   ├── ProductDto.cs
+│   │   │   └── MoneyDto.cs
+│   │   ├── Interfaces
+│   │   │   ├── IProductService.cs
+│   │   │   └── IUnitOfWork.cs
+│   │   ├── Mappings
+│   │   │   └── MappingProfile.cs
+│   │   └── Validators
+│   │       ├── CreateProductCommandValidator.cs
+│   │       └── UpdateProductCommandValidator.cs
+│   │
+│   ├── MyApp.Infrastructure
+│   │   ├── Data
+│   │   │   ├── AppDbContext.cs
+│   │   │   └── Migrations
+│   │   ├── Repositories
+│   │   │   └── ProductRepository.cs
+│   │   ├── Services
+│   │   │   ├── EmailService.cs
+│   │   │   └── LoggingService.cs
+│   │   ├── Configuration
+│   │   │   └── DependencyInjection.cs
+│   │   └── External
+│   │       └── ExternalApiClient.cs
+│   │
+│   └── MyApp.Web
+│       ├── Controllers
+│       │   └── ProductsController.cs
+│       ├── Models
+│       │   ├── CreateProductModel.cs
+│       │   └── UpdateProductModel.cs
+│       ├── Views
+│       │   └── (If using MVC) 
+│       ├── wwwroot
+│       │   ├── css
+│       │   ├── js
+│       │   └── images
+│       ├── Configuration
+│       │   └── DependencyInjection.cs
+│       └── Program.cs / Startup.cs
+│
+└── tests
+    ├── MyApp.Domain.Tests
+    │   ├── Entities
+    │   ├── ValueObjects
+    │   ├── Services
+    │   └── DomainEvents
+    │
+    ├── MyApp.Application.Tests
+    │   ├── Commands
+    │   ├── Queries
+    │   ├── Validators
+    │   └── Services
+    │
+    ├── MyApp.Infrastructure.Tests
+    │   ├── Repositories
+    │   ├── Services
+    │   └── Data
+    │
+    └── MyApp.Web.Tests
+        ├── Controllers
+        └── IntegrationTests

@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackUp.UI", "StackUp.UI\StackUp.UI.csproj", "{83C48807-3A39-44CB-91BC-72FB2B8A92C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{752A239D-7423-4D87-A4E4-DE64A07A3942}"
+	ProjectSection(SolutionItems) = preProject
+		structure.txt = structure.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
