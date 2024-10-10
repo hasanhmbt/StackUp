@@ -1,59 +1,58 @@
-﻿using AutoMapper;
+﻿using MediatR;
+using StackUp.Application.Commands.ProductCommands;
 using StackUp.Application.DTOs;
-using StackUp.Domain.Entities;
-using StackUp.Domain.Interfaces;
+using StackUp.Application.Queries.ProductQueries;
 
 namespace StackUp.Application.Services
 {
     public class ProductService
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IMediator mediator)
         {
-            _productRepository = productRepository;
-            _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
         {
-            var products = await _productRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<ProductDTO>>(products);
+            return await _mediator.Send(new GetAllProductsQuery());
         }
 
         public async Task<ProductDTO> GetProductByIdAsync(int id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-            return _mapper.Map<ProductDTO>(product);
+            return await _mediator.Send(new GetProductByIdQuery(id));
         }
 
         public async Task AddProductAsync(ProductDTO productDto)
         {
-            var product = _mapper.Map<Product>(productDto);
-            await _productRepository.AddAsync(product);
-
+            var command = new CreateProductCommand(
+                productDto.ProductName,
+                productDto.SupplierId,
+                productDto.Price,
+                productDto.Quantity,
+                productDto.CategoryId
+            );
+            await _mediator.Send(command);
         }
-
 
         public async Task UpdateProductAsync(ProductDTO productDto)
         {
-            var product = await _productRepository.GetByIdAsync(productDto.Id);
-            if (product == null)
-                throw new KeyNotFoundException("Product not found.");
-
-            product.UpdatePrice(productDto.Price);
-
-            _productRepository.Update(product);
+            var command = new UpdateProductCommand(
+                productDto.Id,
+                productDto.ProductName,
+                productDto.SupplierId,
+                productDto.Price,
+                productDto.Quantity,
+                productDto.CategoryId
+            );
+            await _mediator.Send(command);
         }
 
-        public async Task RemoveProductAsync(int id)
+        public async Task DeleteProductAsync(int id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-            if (product == null)
-                throw new KeyNotFoundException("Product not found.");
-
-            _productRepository.Delete(product);
+            var command = new DeleteProductCommand(id);
+            await _mediator.Send(command);
         }
     }
 }

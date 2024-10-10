@@ -5,6 +5,8 @@ using StackUp.Application.DTOs;
 using StackUp.Domain.Entities;
 using StackUp.Domain.Interfaces;
 
+//this class updated 
+
 namespace StackUp.Application.CommandHandlers.InventoryHandlers
 {
     public class UpdateInventoryCommandHandler : IRequestHandler<UpdateInventoryCommand, InventoryDTO>
@@ -26,7 +28,9 @@ namespace StackUp.Application.CommandHandlers.InventoryHandlers
                 throw new KeyNotFoundException($"Inventory with Id {request.Id} not found.");
             }
 
-            _mapper.Map(request, inventory);
+            inventory.QuantityOnHand = request.QuantityOnHand;
+            inventory.ReorderLevel = request.ReorderLevel;
+
             _unitOfWork.Repository<Inventory>().Update(inventory);
             await _unitOfWork.CommitAsync();
 

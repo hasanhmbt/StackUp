@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using StackUp.Application.MappingProfiles;
-using StackUp.Application.Services;
+using StackUp.Application.DependencyInjection;
 using StackUp.Domain.Interfaces;
 using StackUp.Infrastructure.Persistence;
 using StackUp.Infrastructure.Repositories;
@@ -15,6 +14,10 @@ builder.Services.AddControllersWithViews();
 // Auto Mapper Configurations
 builder.Services.AddAutoMapper(Assembly.Load("StackUp.Application"));
 
+// services and mapping profiles
+builder.Services.AddApplicationServices();
+
+
 builder.Services.AddDbContext<InventoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -22,11 +25,26 @@ builder.Services.AddDbContext<InventoryDbContext>(options =>
 // MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
+
+
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+
+
 /*// Identity DbContext for User Management
 builder.Services.AddDbContext<IdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection")));
 
-// 1.3. Configure ASP.NET Core Identity
+//  Configure ASP.NET Core Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();*/
@@ -53,19 +71,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
-
-
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-// builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-
-builder.Services.AddScoped<ProductService>();
-// builder.Services.AddScoped<CustomerService>();
-
-builder.Services.AddAutoMapper(typeof(ProductProfile));
 
 //  AI Services
 // builder.Services.AddScoped<IDemandForecastingService, DemandForecastingService>();

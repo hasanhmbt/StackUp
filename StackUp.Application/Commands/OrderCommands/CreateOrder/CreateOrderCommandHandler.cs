@@ -1,5 +1,4 @@
-﻿// File: StackUp.Application/CommandHandlers/OrderHandlers/CreateOrderCommandHandler.cs
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using StackUp.Application.Commands.OrderCommands;
 using StackUp.Application.DTOs;

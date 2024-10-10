@@ -4,11 +4,12 @@ using StackUp.Infrastructure.Persistence;
 
 namespace StackUp.Infrastructure.Repositories;
 
-public class CategoryRepository : Repository<Category>, ICategoryRepository
+public class CustomerRepository : Repository<Customer>, ICustomerRepository
 {
-    public CategoryRepository(InventoryDbContext context) : base(context) { }
+    public CustomerRepository(InventoryDbContext context) : base(context) { }
 
 }
+ 
 
 
-
+ 

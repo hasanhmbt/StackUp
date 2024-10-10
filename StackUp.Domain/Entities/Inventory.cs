@@ -4,8 +4,8 @@
     {
         public int Id { get; private set; }
         public int ProductId { get; private set; }
-        public int QuantityOnHand { get; private set; }
-        public int ReorderLevel { get; private set; }
+        public int QuantityOnHand { get; set; }
+        public int ReorderLevel { get; set; }
 
         public Product Product { get; private set; }
 

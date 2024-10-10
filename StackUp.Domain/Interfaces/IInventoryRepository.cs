@@ -2,6 +2,6 @@
 
 namespace StackUp.Domain.Interfaces;
 
-public interface ICategoryRepository : IRepository<Category>
+public interface IInventoryRepository : IRepository<Inventory>
 { }
 

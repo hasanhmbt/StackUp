@@ -14,13 +14,20 @@ namespace StackUp.Application.MappingProfiles
                 .ForMember(dest => dest.Children, opt => opt.MapFrom(src => src.Children));
 
             CreateMap<CategoryDTO, Category>()
-                .ConstructUsing((src, context) => new Category(src.CategoryName, src.Description, src.ParentId))
+                .ConstructUsing((src, context) => new Category(
+                    src.CategoryName,
+                    src.Description,
+                    src.ParentId))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Parent, opt => opt.Ignore())
                 .ForMember(dest => dest.Children, opt => opt.Ignore())
                 .ForMember(dest => dest.Products, opt => opt.Ignore());
 
             CreateMap<CreateCategoryCommand, Category>()
+                .ConstructUsing((src, context) => new Category(
+                    src.CategoryName,
+                    src.Description,
+                    src.ParentId))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Parent, opt => opt.Ignore())
                 .ForMember(dest => dest.Children, opt => opt.Ignore())
@@ -28,6 +35,9 @@ namespace StackUp.Application.MappingProfiles
 
             CreateMap<UpdateCategoryCommand, Category>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.CategoryName))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentId))
                 .ForMember(dest => dest.Parent, opt => opt.Ignore())
                 .ForMember(dest => dest.Children, opt => opt.Ignore())
                 .ForMember(dest => dest.Products, opt => opt.Ignore());
