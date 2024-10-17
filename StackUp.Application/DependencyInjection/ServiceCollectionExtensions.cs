@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using StackUp.Application.ApplicationServices.Services;
 using StackUp.Application.MappingProfiles;
-using StackUp.Application.Services;
 using System.Reflection;
 
 namespace StackUp.Application.DependencyInjection
@@ -20,8 +20,8 @@ namespace StackUp.Application.DependencyInjection
             services.AddScoped<CustomerService>();
             services.AddScoped<OrderDetailsService>();
 
-            services.AddMediatR(Assembly.GetExecutingAssembly());
 
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             return services;
         }

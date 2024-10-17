@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using StackUp.Application.Commands.OrderCommands;
 
-UpdateOrderCommandValidator ausing FluentValidation;
-using StackUp.Application.Commands.OrderCommands;
 
 namespace StackUp.Application.Validators.Order
 {

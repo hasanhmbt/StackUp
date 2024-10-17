@@ -1,0 +1,326 @@
+﻿@model IEnumerable<StackUp.Application.DTOs.ProductDTO>
+
+@{
+    ViewData["Title"] = "Products";
+
+
+
+    var categories = ViewBag.Categories as IEnumerable<StackUp.Application.DTOs.CategoryDTO>;
+
+
+
+    var suppliers = ViewBag.Suppliers as IEnumerable<StackUp.Application.DTOs.SupplierDTO>;
+
+
+
+    string? currentProductName = Context.Request.Query["ProductName"].FirstOrDefault();
+
+
+
+    List<int> selectedCategoryIds = Context.Request.Query["CategoryIds"].Select(int.Parse).ToList();
+
+
+
+    List<int> selectedSupplierIds = Context.Request.Query["SupplierIds"].Select(int.Parse).ToList();
+}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 id="filterSidebarLabel">Filter</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form asp-controller="Products" asp-action="Index" method="get" autocomplete="off">
+            <div class="accordion" id="accordionMain1">
+                <div class="card-header-new" id="headingOne">
+                    <h6 class="filter-title">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Product Name
+                        </button>
+                    </h6>
+                </div>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionMain1">
+                    <div class="card-body-chat">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-custom">
+                                    <input type="text" class="form-control" name="ProductName" id="ProductNameFilter" placeholder="Search Product" value="@currentProductName">
+                                    <span><img src="~/main/img/icons/search.svg" alt="Search Icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordionMain2">
+                <div class="card-header-new" id="headingTwo">
+                    <h6 class="filter-title">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Category
+                        </button>
+                    </h6>
+                </div>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionMain2">
+                    <div id="categoryFilter">
+                        @foreach (var category in categories)
+
+
+
+                        {
+                            <label class="custom_check w-100">
+                                <input type="checkbox" name="CategoryIds" value="@category.Id" @(selectedCategoryIds.Contains(category.Id) ? "checked" : "")>
+                                <span class="checkmark"></span> @category.CategoryName
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordionMain3">
+                <div class="card-header-new" id="headingThree">
+                    <h6 class="filter-title">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Supplier
+                        </button>
+                    </h6>
+                </div>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionMain3">
+                    <div id="supplierFilter">
+                        @foreach (var supplier in suppliers)
+
+
+
+                        {
+                            <label class="custom_check w-100">
+                                <input type="checkbox" name="SupplierIds" value="@supplier.Id" @(selectedSupplierIds.Contains(supplier.Id) ? "checked" : "")>
+                                <span class="checkmark"></span> @supplier.SupplierName
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-buttons mt-3">
+                <button type="submit" class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary mb-2">
+                    Apply
+                </button>
+                <a asp-controller="Products" asp-action="Index" class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="page-header">
+    <div class="content-page-header">
+        <h5>Products</h5>
+        <div class="list-btn">
+            <ul class="filter-list">
+                <li>
+                    <a class="btn btn-filters w-auto" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter">
+                        <span class="me-2"><img src="~/main/img/icons/filter-icon.svg" alt="filter"></span>Filter
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
+                        <a href="#" class="btn-filters" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span><i class="fe fe-download"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="d-block">
+                                <li>
+                                    <a class="d-flex align-items-center download-item" href="javascript:void(0);" download>
+                                        <i class="far fa-file-pdf me-2"></i>PDF
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center download-item" href="javascript:void(0);" download>
+                                        <i class="far fa-file-text me-2"></i>CSV
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Print">
+                        <span><i class="fe fe-printer"></i></span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Products" asp-action="Create" class="btn btn-primary"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Product</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card invoices-tabs-card">
+    <div class="invoices-main-tabs">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="invoices-tabs">
+                    <ul>
+                        <li><a asp-controller="Products" asp-action="Index" class="active">Product</a></li>
+                        <li><a href="category.html">Category</a></li>
+                        <li><a href="units.html">Units</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-table">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="companies-table">
+                        <table class="table table-center table-hover datatable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Supplier</th>
+                                    <th>Quantity</th>
+                                    <th>Selling Price</th>
+                                    <th>Purchase Price</th>
+                                    <th class="no-sort">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int index = 0;
+                                }
+                                @foreach (var product in Model)
+
+
+
+                                {
+
+
+
+                                    index++;
+
+
+
+                                    var category = categories?.FirstOrDefault(c => c.Id == product.CategoryId);
+
+
+
+                                    var supplier = suppliers?.FirstOrDefault(s => s.Id == product.SupplierId);
+                                    <tr>
+                                        <td>@index</td>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="avatar avatar-md me-2 companies">
+                                                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+
+                                                    {
+                                                        <img class="avatar-img sales-rep" src="@product.ImageUrl" alt="Product Image">
+                                                    }
+
+                                                    else
+
+                                                    {
+                                                        <img class="avatar-img sales-rep" src="https://st3.depositphotos.com/23594922/31822/v/450/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" alt="Product Image">
+                                                    }
+
+                                                </a>
+                                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">@product.ProductName</a>
+                                            </h2>
+                                        </td>
+                                        <td>@(category != null ? category.CategoryName : "N/A")</td>
+                                        <td>@(supplier != null ? supplier.SupplierName : "N/A")</td>
+                                        <td>@product.Quantity</td>
+                                        <td>@product.SellingPrice.ToString("C")</td>
+                                        <td>@product.PurchasePrice.ToString("C")</td>
+                                        <td class="d-flex align-items-center">
+                                            <div class="dropdown dropdown-action">
+                                                <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <ul>
+                                                        <li>
+                                                            <a class="dropdown-item" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">
+                                                                <i class="far fa-edit me-2"></i>Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <form asp-controller="Products" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                                @Html.AntiForgeryToken()
+                                                                <input type="hidden" name="id" value="@product.Id" />
+                                                                <button type="submit" class="dropdown-item">
+                                                                    <i class="far fa-trash-alt me-2"></i>Delete
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="text-end m-2 ">
+    @if (ViewBag.TotalPages > 1)
+    {
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" tabindex="-1">Previous</a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+            </li>
+        </ul>
+    }
+</div>
+@section css
+
+{
+    <link href="~/main/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/main/plugins/select2/css/select2.min.css" rel="stylesheet" />
+}
+
+@section js {
+    <script>
+        $(document).ready(function() {
+            $('#category_search').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+                $('#categoryFilter .custom_check').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('#supplier_search').on('keyup', function() {
+                var value = $(this).val().toLowerCase();
+                $('#supplierFilter .custom_check').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+    <script src="~/main/plugins/datatables/datatables.min.js"></script>
+    <script src="~/main/plugins/select2/js/select2.min.js"></script>
+}

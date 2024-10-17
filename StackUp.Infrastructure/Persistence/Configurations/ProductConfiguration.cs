@@ -16,7 +16,11 @@ namespace StackUp.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(p => p.Price)
+            builder.Property(p => p.SellingPrice)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
+
+            builder.Property(p => p.PurchasePrice)
                 .IsRequired()
                 .HasColumnType("decimal(18,2)");
 

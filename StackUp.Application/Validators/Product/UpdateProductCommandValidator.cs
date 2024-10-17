@@ -17,8 +17,11 @@ namespace StackUp.Application.Validators.Product
             RuleFor(x => x.SupplierId)
                 .GreaterThan(0).WithMessage("SupplierId must be greater than 0.");
 
-            RuleFor(x => x.Price)
-                .GreaterThan(0).WithMessage("Price must be greater than 0.");
+            RuleFor(x => x.SellingPrice)
+                .GreaterThan(0).WithMessage("Selling price must be greater than 0.");
+
+            RuleFor(x => x.PurchasePrice)
+                .GreaterThan(0).WithMessage("Purchase price must be greater than 0.");
 
             RuleFor(x => x.Quantity)
                 .GreaterThanOrEqualTo(0).WithMessage("Quantity cannot be negative.");

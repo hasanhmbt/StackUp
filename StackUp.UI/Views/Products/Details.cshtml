@@ -1,0 +1,72 @@
+﻿@model StackUp.Application.DTOs.ProductDTO
+
+@{
+    ViewData["Title"] = "Product Detail";
+
+    var categories = ViewBag.Categories as IEnumerable<StackUp.Application.DTOs.CategoryDTO>;
+    var suppliers = ViewBag.Suppliers as IEnumerable<StackUp.Application.DTOs.SupplierDTO>;
+
+    var categoryName = categories?.FirstOrDefault(c => c.Id == Model.CategoryId)?.CategoryName ?? "N/A";
+    var supplierName = suppliers?.FirstOrDefault(s => s.Id == Model.SupplierId)?.SupplierName ?? "N/A";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>@Model.ProductName</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Url.Content(Model.ImageUrl)" alt="@Model.ProductName" class="img-fluid rounded" />
+                    }
+                    else
+                    {
+                        <img src="https://st3.depositphotos.com/23594922/31822/v/450/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" alt="No Image" class="img-fluid rounded" />
+                    }
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Category</th>
+                                <td>@categoryName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Supplier</th>
+                                <td>@supplierName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Quantity</th>
+                                <td>@Model.Quantity</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Purchase Price</th>
+                                <td>@Model.PurchasePrice.ToString("C")</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Selling Price</th>
+                                <td>@Model.SellingPrice.ToString("C")</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Description</th>
+                                <td>@Model.Description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="mt-3">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">
+                            <i class="far fa-edit me-1"></i>Edit
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

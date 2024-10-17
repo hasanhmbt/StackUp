@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Add Product";
+}
+ @model StackUp.Application.DTOs.ProductDTO
+
+<form asp-controller="Products" asp-action="Create" enctype="multipart/form-data">
+    @await Html.PartialAsync("~/Views/Shared/Partials/_CreateOrEditProductPartial.cshtml")
+</form>

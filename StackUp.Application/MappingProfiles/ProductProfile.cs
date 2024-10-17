@@ -22,7 +22,8 @@ namespace StackUp.Application.MappingProfiles
                 .ConstructUsing((src, context) => new Product(
                     src.ProductName,
                     src.SupplierId,
-                    src.Price,
+                    src.SellingPrice,
+                    src.PurchasePrice,
                     src.Quantity,
                     src.CategoryId))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -34,7 +35,8 @@ namespace StackUp.Application.MappingProfiles
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.ProductName))
                 .ForMember(dest => dest.SupplierId, opt => opt.MapFrom(src => src.SupplierId))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                .ForMember(dest => dest.SellingPrice, opt => opt.MapFrom(src => src.SellingPrice))
+                .ForMember(dest => dest.PurchasePrice, opt => opt.MapFrom(src => src.PurchasePrice))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId))
                 .ForMember(dest => dest.Supplier, opt => opt.Ignore())
