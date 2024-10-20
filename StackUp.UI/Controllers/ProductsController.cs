@@ -63,9 +63,6 @@ namespace StackUp.UI.Controllers
         }
 
 
-
-
-
         public async Task<IActionResult> Details(int id)
         {
             ViewBag.Categories = await _categoryService.GetAllCategoriesAsync();

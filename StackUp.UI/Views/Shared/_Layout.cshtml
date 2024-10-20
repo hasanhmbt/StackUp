@@ -1,11 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@inject UserManager<AppUser> _userManager
+@{
+    var user = await _userManager.GetUserAsync(this.User);
+}
+
+
+<!DOCTYPE html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none">
 
 <head>
 
-    <title>StackUp-@ViewData["Title"]</title>
+    <title>StackUp @ViewData["Title"]</title>
 
-    <link rel="shortcut icon" href="~/main/img/favicon.png">
+    <link rel="shortcut icon" href="~/uploads/logo2.png">
 
     <link rel="stylesheet" href="~/main/css/bootstrap.min.css">
 
@@ -592,24 +598,12 @@
     <div class="main-wrapper">
 
         <div class="header header-one">
-            <a href="~/index.html" class="d-inline-flex d-sm-inline-flex align-items-center d-md-inline-flex d-lg-none align-items-center device-logo">
-                <img src="~/main/img/logo.png" class="img-fluid logo2" alt="Logo">
-            </a>
+
             <div class="main-logo d-inline float-start d-lg-flex align-items-center d-none d-sm-none d-md-none">
-                <div class="logo-white">
-                    <a href="~/index.html">
-                        <img src="~/main/img/logo-full-white.png" class="img-fluid logo-blue" alt="Logo">
-                    </a>
-                    <a href="~/index.html">
-                        <img src="~/main/img/logo-small-white.png" class="img-fluid logo-small" alt="Logo">
-                    </a>
-                </div>
+
                 <div class="logo-color">
-                    <a href="~/index.html">
-                        <img src="~/main/img/logo.png" class="img-fluid logo-blue" alt="Logo">
-                    </a>
-                    <a href="~/index.html">
-                        <img src="~/main/img/logo-small.png" class="img-fluid logo-small" alt="Logo">
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="~/uploads/logo.png" class="img-fluid logo-blue" alt="Logo"> 
                     </a>
                 </div>
             </div>
@@ -711,7 +705,9 @@
                         <i class="fe fe-maximize"></i>
                     </a>
                 </li>
-
+                @if (User.Identity.IsAuthenticated)
+                {
+                    
                 <li class="nav-item dropdown">
                     <a href="~/javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
@@ -719,8 +715,8 @@
                             <span class="animate-circle"></span>
                         </span>
                         <span class="user-content">
-                            <span class="user-details">Admin</span>
-                            <span class="user-name">John Smith</span>
+                            @* <span class="user-details">Admin</span> *@
+                            <span class="user-name">@user.FirstName @user.LastName</span>
                         </span>
                     </a>
                     <div class="dropdown-menu menu-drop-user">
@@ -736,15 +732,27 @@
                                 </ul>
                             </div>
                             <div class="subscription-logout">
+                                <form id="logoutForm" asp-controller="Authentication" asp-action="Logout" method="post" style="display: none;">
+                                    @Html.AntiForgeryToken()
+                                </form>
                                 <ul>
                                     <li class="pb-0">
-                                        <a class="dropdown-item" href="~/login.html">Log Out</a>
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Log Out</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <form id="loginForm" asp-controller="Authentication" asp-action="Login" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-2 px-4 py-2 shadow" style="min-width: 150px;">Login</button>
+                        </form>
+                    </li>
+                }
 
             </ul>
 
@@ -756,7 +764,7 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul class="sidebar-vertical">
                         <li class="menu-title"><span>Main</span></li>
-                        <li class="submenu">
+                        <li class="">
                             <a asp-controller="Home" asp-action="Index"><i class="fe fe-home"></i> <span> Dashboard</span> </a>
                         </li>
 
@@ -764,20 +772,54 @@
                         <li class="">
                             <a asp-controller="Products" asp-action="Index"><i class="fe fe-package"></i> <span> Products</span> </a>
                         </li>
+                        <li class="">
+                            <a asp-controller="Categories" asp-action="Index"><i class="fe fe-list"></i> <span> Categories</span> </a>
+                        </li>
+
                         <li>
-                            <a href="~/inventory.html"><i class="fe fe-user"></i> <span>Inventory</span></a>
+                            <a asp-controller="Suppliers" asp-action="Index"><i class="fe fe-user"></i> <span>Suppliers</span></a>
                         </li>
 
                         <li class="menu-title"><span>Customers</span></li>
                         <li>
-                            <a href="~/customers.html"><i class="fe fe-users"></i> <span>Customers</span></a>
+                            <a asp-controller="Customers" asp-action="Index"><i class="fe fe-users"></i> <span>Customers</span></a>
                         </li>
                         <li>
-                            <a href="~/customer-details.html"><i class="fe fe-file"></i> <span>Customer Details</span></a>
+                            <a asp-controller="Categories" asp-action="Index"><i class="fe fe-file"></i> <span>Customer Details</span></a>
                         </li>
                         <li>
-                            <a href="~/vendors.html"><i class="fe fe-user"></i> <span>Vendors</span></a>
+                            <a asp-controller="Categories" asp-action="Index"><i class="fe fe-user"></i> <span>Vendors</span></a>
                         </li>
+                       
+                        <li class="menu-title"><span>Purchases</span></li>
+                        <li>
+                            <a href="purchases.html"><i class="fe fe-shopping-cart"></i> <span>Purchases</span></a>
+                        </li>
+                        <li>
+                            <a href="purchase-orders.html"><i class="fe fe-shopping-bag"></i> <span>Purchase Orders</span></a>
+                        </li>
+                        <li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                
+                        <li class="menu-title"><span>User Settings</span></li>
+                        <li>
+                            <a href="users.html"><i class="fe fe-user"></i> <span>Users</span></a>
+                        </li>
+                        <li>
+                            <a href="roles-permission.html"><i class="fe fe-clipboard"></i> <span>Roles & Permission</span></a>
+                        </li>
+                        <li>
+                            <a href="delete-account-request.html"><i class="fe fe-trash-2"></i> <span>Delete Account Request</span></a>
+                        </li>
+                        <li class="menu-title"><span>Settings</span></li>
+                        <li>
+                            <a asp-controller="Categories" asp-action="Index"><i class="fe fe-settings"></i> <span>Settings</span></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();"><i class="fe fe-power"></i> <span>Logout</span></a>
+                        </li>
+                            }
 
                     </ul>
                 </div>
@@ -816,11 +858,11 @@
     <script src="~/main/js/greedynav.js"></script>
     <script src="~/main/js/script.js"></script>
     <script src="~/main/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"></script>
-    <script src="~/main/js/layout.js" ></script>
+    <script src="~/main/js/layout.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
- 
+
 
 
 </body>

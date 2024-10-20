@@ -4,7 +4,7 @@ using StackUp.Domain.Interfaces;
 
 namespace StackUp.Application.CommandHandlers.CategoryHandlers
 {
-    public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
+    public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Unit>
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -18,7 +18,6 @@ namespace StackUp.Application.CommandHandlers.CategoryHandlers
             var category = await _categoryRepository.GetByIdAsync(request.Id);
             if (category == null)
             {
-                // Handle not found
                 throw new KeyNotFoundException($"Category with Id {request.Id} not found.");
             }
 
@@ -27,9 +26,6 @@ namespace StackUp.Application.CommandHandlers.CategoryHandlers
             return Unit.Value;
         }
 
-        Task IRequestHandler<DeleteCategoryCommand>.Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

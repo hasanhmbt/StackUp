@@ -2,25 +2,10 @@
 
 @{
     ViewData["Title"] = "Products";
-
-
-
     var categories = ViewBag.Categories as IEnumerable<StackUp.Application.DTOs.CategoryDTO>;
-
-
-
     var suppliers = ViewBag.Suppliers as IEnumerable<StackUp.Application.DTOs.SupplierDTO>;
-
-
-
     string? currentProductName = Context.Request.Query["ProductName"].FirstOrDefault();
-
-
-
     List<int> selectedCategoryIds = Context.Request.Query["CategoryIds"].Select(int.Parse).ToList();
-
-
-
     List<int> selectedSupplierIds = Context.Request.Query["SupplierIds"].Select(int.Parse).ToList();
 }
 
@@ -64,9 +49,6 @@
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionMain2">
                     <div id="categoryFilter">
                         @foreach (var category in categories)
-
-
-
                         {
                             <label class="custom_check w-100">
                                 <input type="checkbox" name="CategoryIds" value="@category.Id" @(selectedCategoryIds.Contains(category.Id) ? "checked" : "")>
@@ -88,9 +70,6 @@
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionMain3">
                     <div id="supplierFilter">
                         @foreach (var supplier in suppliers)
-
-
-
                         {
                             <label class="custom_check w-100">
                                 <input type="checkbox" name="SupplierIds" value="@supplier.Id" @(selectedSupplierIds.Contains(supplier.Id) ? "checked" : "")>
@@ -197,21 +176,9 @@
                                     int index = 0;
                                 }
                                 @foreach (var product in Model)
-
-
-
                                 {
-
-
-
                                     index++;
-
-
-
                                     var category = categories?.FirstOrDefault(c => c.Id == product.CategoryId);
-
-
-
                                     var supplier = suppliers?.FirstOrDefault(s => s.Id == product.SupplierId);
                                     <tr>
                                         <td>@index</td>
@@ -297,7 +264,6 @@
     }
 </div>
 @section css
-
 {
     <link href="~/main/plugins/datatables/datatables.min.css" rel="stylesheet" />
     <link href="~/main/plugins/select2/css/select2.min.css" rel="stylesheet" />

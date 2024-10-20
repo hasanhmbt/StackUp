@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Edit Category";
+}
+ @model StackUp.Application.DTOs.CategoryDTO
+
+<form asp-controller="Categories" asp-action="Edit" enctype="multipart/form-data">
+    @await Html.PartialAsync("~/Views/Shared/Partials/_CreateOrEditCategoryPartial.cshtml")
+</form>

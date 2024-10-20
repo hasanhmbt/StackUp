@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace StackUp.Infrastructure.Persistence
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<InventoryDbContext>
+    public class AppIdentityDbContextFactory : IDesignTimeDbContextFactory<AppIdentityDbContext>
     {
-        public InventoryDbContext CreateDbContext(string[] args)
+        public AppIdentityDbContext CreateDbContext(string[] args)
         {
             var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "StackUp.UI");
 
@@ -15,13 +15,13 @@ namespace StackUp.Infrastructure.Persistence
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("default");
+            var connectionString = configuration.GetConnectionString("identity");
 
-            var optionsBuilder = new DbContextOptionsBuilder<InventoryDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<AppIdentityDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            return new InventoryDbContext(optionsBuilder.Options);
-        }
 
+            return new AppIdentityDbContext(optionsBuilder.Options);
+        }
     }
 }

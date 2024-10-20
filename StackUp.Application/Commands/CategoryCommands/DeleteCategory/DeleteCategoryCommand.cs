@@ -2,7 +2,7 @@
 
 namespace StackUp.Application.Commands.CategoryCommands
 {
-    public class DeleteCategoryCommand : IRequest
+    public class DeleteCategoryCommand : IRequest<Unit>
     {
         public int Id { get; set; }
 
