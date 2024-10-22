@@ -58,7 +58,8 @@ namespace StackUp.UI.Controllers
             var user = new AppUser
             {
                 UserName = model.UserName,
-                Email = model.Email
+                Email = model.Email,
+                ImageUrl = "/uploads/5631180f-9309-4b6c-b1bb-46f636cbf6b7_images.png"
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -157,9 +158,6 @@ namespace StackUp.UI.Controllers
         {
             return View();
         }
-
-
-
 
         [HttpPost]
         public async Task<IActionResult> Logout()

@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StackUp.UI.Models.IdentityModels;
-
+[AllowAnonymous]
 public class LoginViewModel
 {
     [Required]

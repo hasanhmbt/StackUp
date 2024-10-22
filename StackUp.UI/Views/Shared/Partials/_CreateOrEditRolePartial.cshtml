@@ -1,0 +1,42 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+
+<div class="card mb-0">
+    <div class="card-body">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>Add Role</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group-item">
+                    <h5 class="form-title">Role Details</h5>
+                    <div class="row">
+
+                        <!-- Role Name -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>Role Name <span class="text-danger">*</span></label>
+                                <input asp-for="Name" type="text" class="form-control" placeholder="Enter Role Name">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="reset" class="btn btn-secondary cancel me-2">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

@@ -1,0 +1,252 @@
+﻿ @model StackUp.UI.Models.IdentityModels.EditProfileViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="content container-fluid">
+
+    <!-- Success Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <!-- Sidebar Menu -->
+        <div class="col-xl-3 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="page-header">
+                        <div class="content-page-header">
+                            <h5>Settings</h5>
+                        </div>
+                    </div>
+
+                    <div class="widget settings-menu mb-0">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a asp-action="EditProfile" class="nav-link active">
+                                    <i class="fe fe-user"></i> <span>Account Settings</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="company-settings.html" class="nav-link">
+                                    <i class="fe fe-settings"></i> <span>Company Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-xl-9 col-md-8">
+            <div class="card">
+                <div class="card-body w-100">
+                    <div class="content-page-header">
+                        <h5 class="setting-menu">Account Settings</h5>
+                    </div>
+                    <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+
+                            <!-- Profile Picture Section -->
+                            <div class="col-lg-12 mb-4">
+                                <div class="profile-picture d-flex align-items-center">
+                                    <div class="upload-profile me-2">
+                                        <div class="profile-img">
+                                            <img id="imagePreview" class="avatar rounded-circle" src="@Model.ImageUrl ?? Url.Content("~/assets/img/profiles/avatar-default.jpg")" alt="Profile Image">
+                                        </div>
+                                    </div>
+                                    <div class="img-upload">
+                                        <label class="btn btn-primary">
+                                            Upload new picture
+                                            <input type="file" asp-for="ImageFile" accept="image/*" hidden onchange="previewImage(event)">
+                                        </label>
+                                        <a href="javascript:void(0);" class="btn btn-danger btn-remove mt-2" onclick="removeImage()">Delete</a>
+                                        <p class="mt-1">Image should be at least 152x152 pixels. Supported formats: JPG, PNG, SVG.</p>
+                                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- General Information -->
+                            <div class="col-lg-12">
+                                <div class="form-title">
+                                    <h5>General Information</h5>
+                                </div>
+                            </div>
+
+                            <!-- First Name -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="FirstName" class="form-label">First Name</label>
+                                    <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="LastName" class="form-label">Last Name</label>
+                                    <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="Email" class="form-label">Email</label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="Enter Email Address" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Mobile Number -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="PhoneNumber" class="form-label">Mobile Number</label>
+                                    <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="Enter Mobile Number" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- UserName (Optional) -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="UserName" class="form-label">Username</label>
+                                    <input asp-for="UserName" class="form-control" placeholder="Enter Username" />
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            @* Example:
+                            <!-- Gender (Optional, if applicable in your ViewModel) -->
+                            <!-- If Gender is part of the ViewModel, otherwise remove this section -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="Gender" class="form-label">Gender</label>
+                                    <select asp-for="Gender" class="form-select">
+                                        <option value="">Select Gender</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Date of Birth (Optional, if applicable in your ViewModel) -->
+                            
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                                    <div class="cal-icon cal-icon-info">
+                                        <input asp-for="DateOfBirth" type="date" class="form-control" placeholder="Select Date" />
+                                    </div>
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                            </div>
+                            *@
+
+                            <!-- Address Information -->
+                            <div class="col-lg-12">
+                                <div class="form-title">
+                                    <h5>Address Information</h5>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-lg-12 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="Address" class="form-label">Address</label>
+                                    <input asp-for="Address" class="form-control" placeholder="Enter your Address" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Country -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="Country" class="form-label">Country</label>
+                                    <input asp-for="Country" class="form-control" placeholder="Enter your Country" />
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- State -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="State" class="form-label">State</label>
+                                    <input asp-for="State" class="form-control" placeholder="Enter your State" />
+                                    <span asp-validation-for="State" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- City -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="City" class="form-label">City</label>
+                                    <input asp-for="City" class="form-control" placeholder="Enter your City" />
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Postal Code -->
+                            <div class="col-lg-6 col-12">
+                                <div class="input-block mb-3">
+                                    <label asp-for="PostalCode" class="form-label">Postal Code</label>
+                                    <input asp-for="PostalCode" class="form-control" placeholder="Enter Your Postal Code" />
+                                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Submit Buttons -->
+                            <div class="col-lg-12">
+                                <div class="btn-path text-end">
+                                    <a href="@Url.Action("Index", "Home")" class="btn btn-cancel bg-primary-light me-3">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation Scripts -->
+@section js {
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('imagePreview');
+                output.src = reader.result;
+            };
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        function removeImage() {
+            var imagePreview = document.getElementById('imagePreview');
+            imagePreview.src = '@Url.Content("~/assets/img/profiles/avatar-default.jpg")';
+            // Optionally, you can clear the file input
+            var fileInput = document.querySelector('input[type="file"][asp-for="ImageFile"]');
+            if (fileInput) {
+                fileInput.value = "";
+            }
+        }
+    </script>
+}

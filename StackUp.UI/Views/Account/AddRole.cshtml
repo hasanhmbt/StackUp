@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Add Role";
+}
+ @model IdentityRole
+
+<form asp-controller="Account" asp-action="AddRole" enctype="multipart/form-data">
+    @{
+        await Html.RenderPartialAsync("~/Views/Shared/Partials/_CreateOrEditRolePartial.cshtml");
+    }
+</form>

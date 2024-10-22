@@ -1,0 +1,32 @@
+﻿<div class="col-xl-3 col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="page-header">
+                <div class="content-page-header">
+                    <h5>Settings</h5>
+                </div>
+            </div>
+
+            <div class="widget settings-menu mb-0">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a asp-controller="Settings" asp-action="EditProfile" class="nav-link active">
+                            <i class="fe fe-user"></i> <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Settings" asp-action="PreferenceSettings" class="nav-link">
+                            <i class="fe fe-settings"></i> <span>Preference Settings</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Settings" asp-action="TwoFactorAuthentication" class="nav-link">
+                            <i class="fe fe-aperture"></i> <span>Two Factor</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>

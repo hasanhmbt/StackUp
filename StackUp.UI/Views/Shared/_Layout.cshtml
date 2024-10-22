@@ -603,7 +603,7 @@
 
                 <div class="logo-color">
                     <a asp-controller="Home" asp-action="Index">
-                        <img src="~/uploads/logo.png" class="img-fluid logo-blue" alt="Logo"> 
+                        <img src="~/uploads/logo.png" class="img-fluid logo-blue" alt="Logo">
                     </a>
                 </div>
             </div>
@@ -707,43 +707,43 @@
                 </li>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    
-                <li class="nav-item dropdown">
-                    <a href="~/javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
-                        <span class="user-img">
-                            <img src="~/main/img/profiles/avatar-07.jpg" alt="img" class="profilesidebar">
-                            <span class="animate-circle"></span>
-                        </span>
-                        <span class="user-content">
-                            @* <span class="user-details">Admin</span> *@
-                            <span class="user-name">@user.FirstName @user.LastName</span>
-                        </span>
-                    </a>
-                    <div class="dropdown-menu menu-drop-user">
-                        <div class="profilemenu">
-                            <div class="subscription-menu">
-                                <ul>
-                                    <li>
-                                        <a class="dropdown-item" href="~/profile.html">Profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="~/settings.html">Settings</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="subscription-logout">
-                                <form id="logoutForm" asp-controller="Authentication" asp-action="Logout" method="post" style="display: none;">
-                                    @Html.AntiForgeryToken()
-                                </form>
-                                <ul>
-                                    <li class="pb-0">
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Log Out</a>
-                                    </li>
-                                </ul>
+
+                    <li class="nav-item dropdown">
+                        <a href="~/javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
+                            <span class="user-img">
+                                <img src="@user.ImageUrl" alt="img" class="profilesidebar">
+                                <span class="animate-circle"></span>
+                            </span>
+                            <span class="user-content">
+                                @* <span class="user-details">Admin</span> *@
+                                <span class="user-name">@user.FirstName @user.LastName</span>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu menu-drop-user">
+                            <div class="profilemenu">
+                                <div class="subscription-menu">
+                                    <ul>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Settings" asp-action="EditProfile" >Profile</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Settings" asp-action="EditProfile">Settings</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="subscription-logout">
+                                    <form id="logoutForm" asp-controller="Authentication" asp-action="Logout" method="post" style="display: none;">
+                                        @Html.AntiForgeryToken()
+                                    </form>
+                                    <ul>
+                                        <li class="pb-0">
+                                            <a class="dropdown-item" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Log Out</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
+                    </li>
                 }
                 else
                 {
@@ -790,7 +790,7 @@
                         <li>
                             <a asp-controller="Categories" asp-action="Index"><i class="fe fe-user"></i> <span>Vendors</span></a>
                         </li>
-                       
+
                         <li class="menu-title"><span>Purchases</span></li>
                         <li>
                             <a href="purchases.html"><i class="fe fe-shopping-cart"></i> <span>Purchases</span></a>
@@ -799,28 +799,24 @@
                             <a href="purchase-orders.html"><i class="fe fe-shopping-bag"></i> <span>Purchase Orders</span></a>
                         </li>
                         <li>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                
+
                         <li class="menu-title"><span>User Settings</span></li>
                         <li>
-                            <a href="users.html"><i class="fe fe-user"></i> <span>Users</span></a>
+                            <a asp-controller="Account" asp-action="Index" ><i class="fe fe-user"></i> <span>Users</span></a>
                         </li>
                         <li>
-                            <a href="roles-permission.html"><i class="fe fe-clipboard"></i> <span>Roles & Permission</span></a>
-                        </li>
-                        <li>
-                            <a href="delete-account-request.html"><i class="fe fe-trash-2"></i> <span>Delete Account Request</span></a>
+                            <a asp-controller="Account" asp-action="UserRoles"><i class="fe fe-clipboard"></i> <span>Roles & Permission</span></a>
                         </li>
                         <li class="menu-title"><span>Settings</span></li>
                         <li>
-                            <a asp-controller="Categories" asp-action="Index"><i class="fe fe-settings"></i> <span>Settings</span></a>
+                            <a asp-controller="Settings" asp-action="EditProfile"><i class="fe fe-settings"></i> <span>Settings</span></a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();"><i class="fe fe-power"></i> <span>Logout</span></a>
-                        </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                            <li>
+                                <a href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();"><i class="fe fe-power"></i> <span>Logout</span></a>
+                            </li>
                             }
-
                     </ul>
                 </div>
             </div>
@@ -848,7 +844,7 @@
 
     @RenderSection("js", false)
     @RenderSection("css", false)
-
+    <script src="~/main/plugins/moment/moment.min.js"></script>
     <script src="~/main/js/jquery-3.7.1.min.js"></script>
     <script src="~/main/js/bootstrap.bundle.min.js"></script>
     <script src="~/main/js/feather.min.js"></script>
@@ -859,10 +855,7 @@
     <script src="~/main/js/script.js"></script>
     <script src="~/main/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"></script>
     <script src="~/main/js/layout.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
 
 
 </body>

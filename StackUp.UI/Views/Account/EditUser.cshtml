@@ -1,0 +1,72 @@
+﻿@model StackUp.UI.Models.IdentityModels.EditUserViewModel
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Edit User</h5>
+
+        <form asp-action="EditUser" method="post">
+            <!-- User Information -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="FirstName">First Name</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="UserName">Username</label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Role Assignment -->
+            <h5 class="mt-4">Roles</h5>
+            @if (Model.Roles != null && Model.Roles.Any())
+            {
+                <div class="form-group">
+                    <div class="row">
+                        @for (var i = 0; i < Model.Roles.Count; i++)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input type="hidden" asp-for="Roles[i].RoleId" />
+                                    <input type="checkbox" asp-for="Roles[i].IsSelected" class="form-check-input" />
+                                    <label class="form-check-label">@Model.Roles[i].RoleName</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p>No roles available.</p>
+            }
+
+            <!-- Submit Buttons -->
+            <div class="text-end mt-4">
+                <a asp-action="Index" class="btn btn-secondary me-2">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+ 
