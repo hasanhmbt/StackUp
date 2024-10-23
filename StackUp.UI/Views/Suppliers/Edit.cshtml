@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Edit Supplier";
+}
+ @model StackUp.Application.DTOs.SupplierDTO
+
+<form asp-controller="Suppliers" asp-action="Edit" enctype="multipart/form-data">
+    @{
+        await Html.RenderPartialAsync("~/Views/Shared/Partials/_CreateOrEditSupplierPartial.cshtml");
+    }
+</form>

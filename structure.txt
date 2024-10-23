@@ -1,7 +1,7 @@
-﻿MyApp.sln
+﻿StackUp.sln
 │
 ├── src
-│   ├── MyApp.Domain
+│   ├── StackUp.Domain
 │   │   ├── Entities
 │   │   ├── ValueObjects
 │   │   ├── Aggregates
@@ -11,7 +11,7 @@
 │   │   ├── Specifications
 │   │   └── Exceptions
 │   │
-│   ├── MyApp.Application
+│   ├── StackUp.Application
 │   │   ├── Commands
 │   │   │   ├── CreateProduct
 │   │   │   │   ├── CreateProductCommand.cs
@@ -38,7 +38,7 @@
 │   │       ├── CreateProductCommandValidator.cs
 │   │       └── UpdateProductCommandValidator.cs
 │   │
-│   ├── MyApp.Infrastructure
+│   ├── StackUp.Infrastructure
 │   │   ├── Data
 │   │   │   ├── AppDbContext.cs
 │   │   │   └── Migrations
@@ -52,7 +52,7 @@
 │   │   └── External
 │   │       └── ExternalApiClient.cs
 │   │
-│   └── MyApp.Web
+│   └── StackUp.Web
 │       ├── Controllers
 │       │   └── ProductsController.cs
 │       ├── Models
@@ -69,23 +69,23 @@
 │       └── Program.cs / Startup.cs
 │
 └── tests
-    ├── MyApp.Domain.Tests
+    ├── StackUp.Domain.Tests
     │   ├── Entities
     │   ├── ValueObjects
     │   ├── Services
     │   └── DomainEvents
     │
-    ├── MyApp.Application.Tests
+    ├── StackUp.Application.Tests
     │   ├── Commands
     │   ├── Queries
     │   ├── Validators
     │   └── Services
     │
-    ├── MyApp.Infrastructure.Tests
+    ├── StackUp.Infrastructure.Tests
     │   ├── Repositories
     │   ├── Services
     │   └── Data
     │
-    └── MyApp.Web.Tests
+    └── StackUp.Web.Tests
         ├── Controllers
         └── IntegrationTests

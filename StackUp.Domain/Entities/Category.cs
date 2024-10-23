@@ -1,8 +1,9 @@
-﻿namespace StackUp.Domain.Entities
+﻿using StackUp.Domain.Entities.Common;
+
+namespace StackUp.Domain.Entities
 {
-    public class Category
+    public class Category : Base
     {
-        public int Id { get; private set; }
         public string CategoryName { get; private set; }
         public string Description { get; private set; }
         public int? ParentId { get; private set; }

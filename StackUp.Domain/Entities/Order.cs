@@ -1,12 +1,16 @@
-﻿namespace StackUp.Domain.Entities
+﻿using StackUp.Domain.Entities.Common;
+
+namespace StackUp.Domain.Entities
 {
-    public class Order
+    public class Order : Base
     {
-        public int Id { get; private set; }
+
         public int OrderNumber { get; private set; }
         public int SupplierId { get; private set; }
         public DateTime OrderDate { get; private set; }
         public int CustomerId { get; private set; }
+        public int ProductId { get; private set; }
+        public int Quantity { get; private set; }
 
         public Supplier Supplier { get; private set; }
         public Customer Customer { get; private set; }
@@ -27,20 +31,28 @@
             CustomerId = customerId;
         }
 
-        public void AddOrderDetails(OrderDetails details)
+        //public void AddOrderDetails(OrderDetails details)
+        //{
+        //    if (details == null)
+        //        throw new ArgumentNullException(nameof(details));
+
+        //    OrderDetails.Add(details);
+        //}
+
+        //public void RemoveOrderDetails(OrderDetails details)
+        //{
+        //    if (details == null)
+        //        throw new ArgumentNullException(nameof(details));
+
+        //    OrderDetails.Remove(details);
+        //}
+
+        public void UpdateQuantity(int newQuantity)
         {
-            if (details == null)
-                throw new ArgumentNullException(nameof(details));
+            if (newQuantity <= 0)
+                throw new ArgumentException("Quantity must be greater than zero.", nameof(newQuantity));
 
-            OrderDetails.Add(details);
-        }
-
-        public void RemoveOrderDetails(OrderDetails details)
-        {
-            if (details == null)
-                throw new ArgumentNullException(nameof(details));
-
-            OrderDetails.Remove(details);
+            Quantity = newQuantity;
         }
 
     }

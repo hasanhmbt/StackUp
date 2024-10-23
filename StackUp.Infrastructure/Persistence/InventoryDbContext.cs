@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using StackUp.Domain.Entities;
 
 namespace StackUp.Infrastructure.Persistence
@@ -17,15 +18,14 @@ namespace StackUp.Infrastructure.Persistence
 
         public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options) { }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(InventoryDbContext).Assembly);
-
-            //modelBuilder.Entity<Supplier>().HasData(new Supplier("Supplier A", new ContactInfo("contactA@example.com", "+1234567890")));
-            //modelBuilder.Entity<Category>().HasData(new Category("Electronics", "Electronic Items"));
-            //modelBuilder.Entity<Product>().HasData(new Product("Laptop", 1, 1200.00m, 10, 1));
-            //modelBuilder.Entity<Inventory>().HasData(new Inventory(1, 100, 10));
-
             base.OnModelCreating(modelBuilder);
         }
     }

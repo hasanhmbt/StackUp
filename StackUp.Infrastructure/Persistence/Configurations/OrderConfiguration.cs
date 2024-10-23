@@ -19,7 +19,7 @@ namespace StackUp.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(o => o.Supplier)
-                .WithMany() // Assuming Supplier doesn't have a collection of Orders
+                .WithMany()
                 .HasForeignKey(o => o.SupplierId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -32,6 +32,7 @@ namespace StackUp.Infrastructure.Persistence.Configurations
                 .WithOne(od => od.Order)
                 .HasForeignKey(od => od.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

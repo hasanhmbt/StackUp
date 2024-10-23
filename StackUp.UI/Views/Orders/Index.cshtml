@@ -1,0 +1,215 @@
+﻿@model IEnumerable<StackUp.Application.DTOs.OrderDTO>
+
+@{
+    ViewData["Title"] = "Orders";
+    var suppliers = ViewBag.Suppliers as IEnumerable<StackUp.Application.DTOs.SupplierDTO>;
+    var customers = ViewBag.Customers as IEnumerable<StackUp.Application.DTOs.CustomerDTO>;
+    var products = ViewBag.Products as IEnumerable<StackUp.Application.DTOs.ProductDTO>;
+    string? currentOrderNumber = Context.Request.Query["orderNumber"].FirstOrDefault();
+    List<int> selectedSupplierIds = Context.Request.Query["supplierIds"].Select(int.Parse).ToList();
+    List<int> selectedCustomerIds = Context.Request.Query["customerIds"].Select(int.Parse).ToList();
+}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 id="filterSidebarLabel">Filter</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form asp-controller="Orders" asp-action="Index" method="get" autocomplete="off">
+            <div class="accordion" id="accordionMain1">
+                <div class="card-header-new" id="headingOne">
+                    <h6 class="filter-title">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Order Number
+                        </button>
+                    </h6>
+                </div>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionMain1">
+                    <div class="card-body-chat">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-custom">
+                                    <input type="text" class="form-control" name="orderNumber" id="OrderNumberFilter" placeholder="Search Order" value="@currentOrderNumber">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordionMain2">
+                <div class="card-header-new" id="headingTwo">
+                    <h6 class="filter-title">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Supplier
+                        </button>
+                    </h6>
+                </div>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionMain2">
+                    <div id="supplierFilter">
+                        @foreach (var supplier in suppliers)
+                        {
+                            <label class="custom_check w-100">
+                                <input type="checkbox" name="supplierIds" value="@supplier.Id" @(selectedSupplierIds.Contains(supplier.Id) ? "checked" : "")>
+                                <span class="checkmark"></span> @supplier.SupplierName
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordionMain3">
+                <div class="card-header-new" id="headingThree">
+                    <h6 class="filter-title">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Customer
+                        </button>
+                    </h6>
+                </div>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionMain3">
+                    <div id="customerFilter">
+                        @foreach (var customer in customers)
+                        {
+                            <label class="custom_check w-100">
+                                <input type="checkbox" name="customerIds" value="@customer.Id" @(selectedCustomerIds.Contains(customer.Id) ? "checked" : "")>
+                                <span class="checkmark"></span> @customer.CustomerName
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-buttons mt-3">
+                <button type="submit" class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary mb-2">
+                    Apply
+                </button>
+                <a asp-controller="Orders" asp-action="Index" class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="page-header">
+    <div class="content-page-header">
+        <h5>Orders</h5>
+        <div class="list-btn">
+            <ul class="filter-list">
+                <li>
+                    <a class="btn btn-filters w-auto" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter">
+                        <span class="me-2"><img src="~/main/img/icons/filter-icon.svg" alt="filter"></span>Filter
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Orders" asp-action="Create" class="btn btn-primary"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Order</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-table">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-stripped table-hover datatable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Order Number</th>
+                                <th>Product Name</th>
+                                <th>Supplier</th>
+                                <th>Customer</th>
+                                <th>Order Date</th>
+                                <th class="no-sort">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int index = 0;
+                            }
+                            @foreach (var order in Model)
+                            {
+                                index++;
+                                var supplier = suppliers?.FirstOrDefault(s => s.Id == order.SupplierId);
+                                var customer = customers?.FirstOrDefault(c => c.Id == order.CustomerId);
+                                var product = products?.FirstOrDefault(p => p.Id == order.ProductId);  
+
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@order.OrderNumber</td>
+                                    <td>@(product != null ? product.ProductName : "N/A")</td>  
+                                    <td>@(supplier != null ? supplier.SupplierName : "N/A")</td>
+                                    <td>@(customer != null ? customer.CustomerName : "N/A")</td>
+                                    <td>@order.OrderDate.ToString("dd MMM yyyy")</td>
+                                    <td class="d-flex align-items-center">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <ul>
+                                                    <li>
+                                                        <a class="dropdown-item" asp-controller="Orders" asp-action="Edit" asp-route-id="@order.Id">
+                                                            <i class="far fa-edit me-2"></i>Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <form asp-controller="Orders" asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete this order?');">
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="hidden" name="id" value="@order.Id" />
+                                                            <button type="submit" class="dropdown-item">
+                                                                <i class="far fa-trash-alt me-2"></i>Delete
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end m-2 ">
+            @if (ViewBag.TotalPages > 1)
+            {
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" tabindex="-1">Previous</a>
+                    </li>
+
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                        </li>
+                    }
+
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })">Next</a>
+                    </li>
+                </ul>
+            }
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <link href="~/main/plugins/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/main/plugins/select2/css/select2.min.css" rel="stylesheet" />
+}
+
+@section js {
+    <script src="~/main/plugins/datatables/datatables.min.js"></script>
+    <script src="~/main/plugins/select2/js/select2.min.js"></script>
+}

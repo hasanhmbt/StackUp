@@ -1,0 +1,108 @@
+﻿@model StackUp.Application.DTOs.OrderDTO
+
+<div class="card mb-0">
+    <div class="card-body">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>Add Order</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group-item">
+                        <h5 class="form-title">Basic Details</h5>
+                        <div class="row">
+
+                            <!-- Order Number -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="OrderNumber">Order Number <span class="text-danger"> *</span></label>
+                                    <input asp-for="OrderNumber" class="form-control" placeholder="Enter Order Number" />
+                                </div>
+                            </div>
+
+                            <!-- Order Date -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="OrderDate">Order Date <span class="text-danger"> *</span></label>
+                                    <input asp-for="OrderDate" class="form-control" type="date" />
+                                </div>
+                            </div>
+
+                            <!-- Supplier Dropdown -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="SupplierId">Supplier <span class="text-danger"> *</span></label>
+                                    <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.Suppliers">
+                                        <option value="">Select Supplier</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Customer Dropdown -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="CustomerId">Customer <span class="text-danger"> *</span></label>
+                                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers">
+                                        <option value="">Select Customer</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product and Quantity Section -->
+                    <div class="form-group-item">
+                        <h5 class="form-title">Product Details</h5>
+                        <div class="row">
+
+                            <!-- Product Dropdown -->
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="ProductId">Product <span class="text-danger"> *</span></label>
+                                    <select asp-for="ProductId" class="form-control product-select" asp-items="ViewBag.Products">
+                                        <option value="">Select Product</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Quantity Input -->
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="Quantity">Quantity <span class="text-danger"> *</span></label>
+                                    <input asp-for="Quantity" class="form-control" type="number" min="1" value="1" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-end mt-4">
+                        <a asp-action="Index" class="btn btn-primary cancel me-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <link href="~/main/plugins/select2/css/select2.min.css" rel="stylesheet" />
+}
+
+@section js
+{
+    <script src="~/main/plugins/jquery/jquery.min.js"></script>
+    <script src="~/main/plugins/select2/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.product-select').select2({
+                placeholder: "Select Product",
+                allowClear: true
+            });
+        });
+    </script>
+}

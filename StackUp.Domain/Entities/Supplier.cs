@@ -1,10 +1,10 @@
-﻿using StackUp.Domain.ValueObjects;
+﻿using StackUp.Domain.Entities.Common;
+using StackUp.Domain.ValueObjects;
 
 namespace StackUp.Domain.Entities
 {
-    public class Supplier
+    public class Supplier : Base
     {
-        public int Id { get; private set; }
         public string SupplierName { get; private set; }
         public ContactInfo ContactInfo { get; private set; }
 

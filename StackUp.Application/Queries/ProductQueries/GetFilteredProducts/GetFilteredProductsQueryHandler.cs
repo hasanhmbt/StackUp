@@ -1,5 +1,4 @@
-﻿// GetFilteredProductsQueryHandler.cs
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using StackUp.Application.DTOs;
 using StackUp.Application.Queries.ProductQueries;

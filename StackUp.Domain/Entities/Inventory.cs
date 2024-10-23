@@ -1,8 +1,10 @@
-﻿namespace StackUp.Domain.Entities
+﻿using StackUp.Domain.Entities.Common;
+
+namespace StackUp.Domain.Entities
 {
-    public class Inventory
+    public class Inventory : Base
     {
-        public int Id { get; private set; }
+
         public int ProductId { get; private set; }
         public int QuantityOnHand { get; set; }
         public int ReorderLevel { get; set; }

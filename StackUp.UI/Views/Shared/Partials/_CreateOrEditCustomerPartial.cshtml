@@ -1,0 +1,73 @@
+﻿@model StackUp.Application.DTOs.CustomerDTO
+
+<div class="card mb-0">
+    <div class="card-body">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>Add Customer</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group-item">
+                    <h5 class="form-title">Customer Details</h5>
+                    <div class="row">
+
+                        <!-- Customer Name -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>Customer Name <span class="text-danger">*</span></label>
+                                <input asp-for="CustomerName" type="text" class="form-control" placeholder="Enter Customer Name">
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>Address</label>
+                                <input asp-for="Address" type="text" class="form-control" placeholder="Enter Address">
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>Email <span class="text-danger">*</span></label>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="Enter Email">
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>Phone</label>
+                                <input asp-for="Phone" type="text" class="form-control" placeholder="Enter Phone">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="reset" class="btn btn-secondary cancel me-2">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section css
+{
+    <link href="~/main/plugins/summernote/summernote-lite.min.css" rel="stylesheet" />
+}
+@section js
+{
+    <script src="~/main/plugins/summernote/summernote-lite.min.js"></script>
+}

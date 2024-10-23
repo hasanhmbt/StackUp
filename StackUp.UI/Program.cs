@@ -73,6 +73,18 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+
+// Erorr Handling with Sentry: https://i-dont-have-company-me.sentry.io/issues/?project=4508167583629392&referrer=sidebar&statsPeriod=14d
+builder.WebHost.UseSentry(o =>
+{
+    o.Dsn = "https://e454b145ebdb61a193275323b6260ac2@o4508167537426432.ingest.de.sentry.io/4508167583629392";
+    o.Debug = true;
+    o.TracesSampleRate = 1.0;
+    o.SendDefaultPii = true;
+});
+
+
+
 //  AI Services  
 // builder.Services.AddScoped<IDemandForecastingService, DemandForecastingService>();
 // builder.Services.AddHttpClient<IAnomalyDetectionService, AnomalyDetectionService>();

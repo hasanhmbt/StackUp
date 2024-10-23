@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StackUp.Domain.Entities.IdentityEntites;
 using StackUp.UI.Models.IdentityModels;
+
+namespace StackUp.UI.Controllers;
+
+[Authorize]
 
 public class SettingsController : Controller
 {

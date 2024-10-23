@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Edit Order";
+}
+ @model StackUp.Application.DTOs.OrderDTO
+
+<form asp-controller="Orders" asp-action="Edit" enctype="multipart/form-data">
+    @{
+        await Html.RenderPartialAsync("~/Views/Shared/Partials/_CreateOrEditOrderPartial.cshtml");
+    }
+</form>

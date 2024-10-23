@@ -30,7 +30,6 @@
                             <div class="col-md-12">
                                 <div class="form-custom">
                                     <input type="text" class="form-control" name="ProductName" id="ProductNameFilter" placeholder="Search Product" value="@currentProductName">
-                                    <span><img src="~/main/img/icons/search.svg" alt="Search Icon"></span>
                                 </div>
                             </div>
                         </div>
@@ -143,8 +142,7 @@
                 <div class="invoices-tabs">
                     <ul>
                         <li><a asp-controller="Products" asp-action="Index" class="active">Product</a></li>
-                        <li><a href="category.html">Category</a></li>
-                        <li><a href="units.html">Units</a></li>
+                        <li><a asp-controller="Categories" asp-action="Index">Category</a></li>
                     </ul>
                 </div>
             </div>

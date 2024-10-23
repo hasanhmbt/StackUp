@@ -2,6 +2,7 @@
 using StackUp.Application.Commands.OrderCommands;
 using StackUp.Application.DTOs;
 using StackUp.Application.Queries.OrderQueries;
+using StackUp.Application.Queries.OrderQueries.GetFilteredOrders;
 
 namespace StackUp.Application.ApplicationServices.Services
 {
@@ -31,6 +32,8 @@ namespace StackUp.Application.ApplicationServices.Services
                 orderDto.SupplierId,
                 orderDto.OrderDate,
                 orderDto.CustomerId,
+                orderDto.ProductId,
+                orderDto.Quantity,
                 orderDto.OrderDetails
             );
             await _mediator.Send(command);
@@ -44,10 +47,19 @@ namespace StackUp.Application.ApplicationServices.Services
                 orderDto.SupplierId,
                 orderDto.OrderDate,
                 orderDto.CustomerId,
+              orderDto.ProductId,
+                orderDto.Quantity,
                 orderDto.OrderDetails
             );
             await _mediator.Send(command);
         }
+
+
+        public async Task<IEnumerable<OrderDTO>> GetFilteredOrdersAsync(string orderNumber, List<int> supplierIds, List<int> customerIds)
+        {
+            return await _mediator.Send(new GetFilteredOrdersQuery(orderNumber, supplierIds, customerIds));
+        }
+
 
         public async Task RemoveOrderAsync(int id)
         {

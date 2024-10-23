@@ -1,8 +1,9 @@
-﻿namespace StackUp.Domain.Entities
+﻿using StackUp.Domain.Entities.Common;
+
+namespace StackUp.Domain.Entities
 {
-    public class Product
+    public class Product : Base
     {
-        public int Id { get; private set; }
         public string ProductName { get; private set; }
         public int SupplierId { get; private set; }
         public decimal SellingPrice { get; private set; }

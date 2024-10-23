@@ -1,8 +1,10 @@
-﻿namespace StackUp.Domain.Entities
+﻿using StackUp.Domain.Entities.Common;
+
+namespace StackUp.Domain.Entities
 {
-    public class OrderDetails
+    public class OrderDetails : Base
     {
-        public int Id { get; private set; }
+
         public int OrderId { get; private set; }
         public int ProductId { get; private set; }
         public int Quantity { get; private set; }
@@ -21,13 +23,7 @@
             Quantity = quantity;
         }
 
-        public void UpdateQuantity(int newQuantity)
-        {
-            if (newQuantity <= 0)
-                throw new ArgumentException("Quantity must be greater than zero.", nameof(newQuantity));
 
-            Quantity = newQuantity;
-        }
 
     }
 }
