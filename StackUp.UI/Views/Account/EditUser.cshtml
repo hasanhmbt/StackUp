@@ -1,5 +1,9 @@
 ﻿@model StackUp.UI.Models.IdentityModels.EditUserViewModel
 
+@{
+    ViewData["Title"] = "Edit User";
+}
+
 <div class="card mb-4">
     <div class="card-body">
         <h5>Edit User</h5>
@@ -8,47 +12,54 @@
             <!-- User Information -->
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="FirstName">First Name</label>
                         <input asp-for="FirstName" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="LastName">Last Name</label>
                         <input asp-for="LastName" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="Email">Email</label>
                         <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="UserName">Username</label>
                         <input asp-for="UserName" class="form-control" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                 </div>
             </div>
+
             <!-- Role Assignment -->
             <h5 class="mt-4">Roles</h5>
             @if (Model.Roles != null && Model.Roles.Any())
             {
+                <div class="form-group mb-3">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" class="form-check-input" id="toggleAllRoles" />
+                        <label class="form-check-label" for="toggleAllRoles">Select All</label>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="row">
                         @for (var i = 0; i < Model.Roles.Count; i++)
                         {
-                            <div class="col-md-4">
-                                <div class="form-check">
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" asp-for="Roles[i].IsSelected" class="form-check-input role-checkbox" id="role_@Model.Roles[i].RoleId" />
+                                    <label class="form-check-label" for="role_@Model.Roles[i].RoleId">@Model.Roles[i].RoleName</label>
                                     <input type="hidden" asp-for="Roles[i].RoleId" />
-                                    <input type="checkbox" asp-for="Roles[i].IsSelected" class="form-check-input" />
-                                    <label class="form-check-label">@Model.Roles[i].RoleName</label>
                                 </div>
                             </div>
                         }
@@ -60,7 +71,6 @@
                 <p>No roles available.</p>
             }
 
-            <!-- Submit Buttons -->
             <div class="text-end mt-4">
                 <a asp-action="Index" class="btn btn-secondary me-2">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -69,4 +79,36 @@
     </div>
 </div>
 
- 
+@section css {
+    <style>
+        .form-switch .form-check-input {
+            width: 3em;
+            height: 1.5em;
+            margin-left: -2.5em;
+        }
+    </style>
+}
+
+@section js {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleAll = document.getElementById('toggleAllRoles');
+            const roleCheckboxes = document.querySelectorAll('.role-checkbox');
+
+            toggleAll.addEventListener('change', function () {
+                roleCheckboxes.forEach(cb => cb.checked = this.checked);
+            });
+
+            roleCheckboxes.forEach(cb => {
+                cb.addEventListener('change', function () {
+                    if (!this.checked) {
+                        toggleAll.checked = false;
+                    } else {
+                        const allChecked = Array.from(roleCheckboxes).every(cb => cb.checked);
+                        toggleAll.checked = allChecked;
+                    }
+                });
+            });
+        });
+    </script>
+}

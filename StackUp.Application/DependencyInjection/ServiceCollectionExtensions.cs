@@ -21,6 +21,7 @@ namespace StackUp.Application.DependencyInjection
             services.AddScoped<OrderDetailsService>();
 
 
+
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             return services;

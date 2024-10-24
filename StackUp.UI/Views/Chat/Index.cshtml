@@ -1,0 +1,167 @@
+﻿<!-- Views/Chat/Index.cshtml -->
+@inject UserManager<AppUser> _userManager
+@{
+    var user = await _userManager.GetUserAsync(this.User);
+    ViewData["Title"] = "Chat";
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        Chat with AI
+    </div>
+    <div class="card-body d-flex flex-column" style="height: 500px;">
+        <div id="chatOutput" class="flex-grow-1 mb-3 overflow-auto">
+            <!-- Chat messages will appear here -->
+        </div>
+        <form id="chatForm" class="d-flex">
+            @Html.AntiForgeryToken()
+            <input type="text" class="form-control me-2" id="userInput" name="userInput" placeholder="Type your message..." autocomplete="off" required />
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    </div>
+</div>
+
+@section js {
+    <script>
+        document.getElementById('chatForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const userInput = document.getElementById('userInput').value.trim();
+            if (!userInput) {
+                alert('Please enter a message.');
+                return;
+            }
+
+            const chatOutput = document.getElementById('chatOutput');
+            const sendButton = this.querySelector('button[type="submit"]');
+
+            sendButton.disabled = true;
+
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('d-flex', 'justify-content-end', 'mb-2');
+            userMessage.innerHTML = `
+                <div class="speech-bubble user-bubble">
+                    <strong>You:</strong> ${escapeHtml(userInput)}
+                </div>
+            `;
+            chatOutput.appendChild(userMessage);
+
+            document.getElementById('userInput').value = '';
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+
+            const loadingMessage = document.createElement('div');
+            loadingMessage.classList.add('d-flex', 'justify-content-start', 'mb-2');
+            loadingMessage.innerHTML = `
+                <div class="speech-bubble ai-bubble">
+                    <em>AI is typing...</em>
+                </div>
+            `;
+            chatOutput.appendChild(loadingMessage);
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+
+            try {
+                const response = await fetch('@Url.Action("GetResponse", "Chat")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'RequestVerificationToken': getAntiForgeryToken()
+                    },
+                    body: new URLSearchParams({
+                        userInput: userInput
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+
+                chatOutput.removeChild(loadingMessage);
+
+                const aiMessage = document.createElement('div');
+                aiMessage.classList.add('d-flex', 'justify-content-start', 'mb-2');
+                aiMessage.innerHTML = `
+                    <div class="speech-bubble ai-bubble">
+                        <strong>AI:</strong> ${escapeHtml(data.response)}
+                    </div>
+                `;
+                chatOutput.appendChild(aiMessage);
+                chatOutput.scrollTop = chatOutput.scrollHeight;
+            } catch (error) {
+                chatOutput.removeChild(loadingMessage);
+                const errorMessage = document.createElement('div');
+                errorMessage.classList.add('d-flex', 'justify-content-start', 'mb-2');
+                errorMessage.innerHTML = `
+                    <div class="speech-bubble ai-bubble text-danger">
+                        Something went wrong, please try again.
+                    </div>
+                `;
+                chatOutput.appendChild(errorMessage);
+                chatOutput.scrollTop = chatOutput.scrollHeight;
+                console.error('Error:', error);
+            } finally {
+                sendButton.disabled = false;
+            }
+        });
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+        }
+
+        function getAntiForgeryToken() {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]');
+            return token ? token.value : '';
+        }
+    </script>
+}
+
+@section css {
+    <style>
+        .speech-bubble {
+            position: relative;
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 70%;
+        }
+
+        .user-bubble {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+        }
+
+            .user-bubble::after {
+                content: "";
+                position: absolute;
+                top: 10px;
+                right: -10px;
+                border-width: 10px 0 10px 10px;
+                border-style: solid;
+                border-color: transparent transparent transparent #007bff;
+            }
+
+        .ai-bubble {
+            background-color: #f1f0f0;
+            color: #333;
+            align-self: flex-start;
+        }
+
+            .ai-bubble::after {
+                content: "";
+                position: absolute;
+                top: 10px;
+                left: -10px;
+                border-width: 10px 10px 10px 0;
+                border-style: solid;
+                border-color: transparent #f1f0f0 transparent transparent;
+            }
+    </style>
+}
