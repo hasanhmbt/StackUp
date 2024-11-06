@@ -21,9 +21,9 @@ StackUp is an inventory management system built using ASP.NET MVC, following the
 ## Technologies Used
 
 - **Frameworks:** ASP.NET MVC, Entity Framework Core
-- **Languages:** C#
+- **Languages:** C#, HTML, JS, CSS
 - **Design Patterns:** CQRS, Generic Repository, Unit of Work
-- **UI:** Bootstrap
+- **UI:** Bootstrap and some Templates
 - **Database:** Microsoft SQL Server
 - **Tools:** AutoMapper, FluentValidation, Sentry for error logging
 
